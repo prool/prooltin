@@ -6146,7 +6146,7 @@ if test "$no_create" != yes; then
   test "$silent" = yes &&
     ac_config_status_args="$ac_config_status_args --quiet"
   exec 5>/dev/null
-  $SHELL $CONFIG_STATUS $ac_config_status_args || ac_cs_success=false
+  sh $CONFIG_STATUS $ac_config_status_args || ac_cs_success=false
   exec 5>>config.log
   # Use ||, not &&, to avoid exiting from the if with $? = 1, which
   # would make configure fail if this is the last instruction.
