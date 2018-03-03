@@ -80,6 +80,8 @@ struct command_type command_table[] =
 	{    "map",               do_map,               TOKEN_TYPE_COMMAND },
 	{    "math",              do_math,              TOKEN_TYPE_COMMAND },
 	{    "message",           do_message,           TOKEN_TYPE_COMMAND },
+	{    "mouseon",           do_mouseon,           TOKEN_TYPE_COMMAND }, // prool
+	{    "mouseoff",          do_mouseoff,          TOKEN_TYPE_COMMAND }, // prool
 	{    "nop",               do_nop,               TOKEN_TYPE_COMMAND },
 	{    "parse",             do_nop,               TOKEN_TYPE_PARSE   },
 	{    "path",              do_path,              TOKEN_TYPE_COMMAND },

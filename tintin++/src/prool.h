@@ -6,6 +6,8 @@ DO_COMMAND(do_addword);
 DO_COMMAND(do_delword);
 DO_COMMAND(do_listdic);
 DO_COMMAND(do_writedic);
+DO_COMMAND(do_mouseon);
+DO_COMMAND(do_mouseoff);
 
 char *prooltran(char *si);
 void prool_log(char *message);
@@ -14,6 +16,9 @@ char *ptime(void);
 void uptime_(void);
 void prooltranslate_init(void);
 int prool_loop(void);
+
+void enable_mouse(void);
+void disable_mouse(void);
 
 extern int total_log;
 extern int tron;

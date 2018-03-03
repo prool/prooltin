@@ -52,6 +52,8 @@ DO_COMMAND(do_read)
 
 	temp[0] = getc(fp);
 
+	//printf("C"); // prool debug
+
 	if (!isgraph((int) temp[0]) || isalpha((int) temp[0]))
 	{
 		tintin_printf(ses, "#ERROR: #READ {%s} - INVALID START OF FILE.", filename);

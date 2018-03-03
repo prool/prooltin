@@ -178,7 +178,7 @@ for (i=0;i<MAXWORD;i++)
 fclose(fp);
 }
 
-DO_COMMAND(do_prool) // prool
+DO_COMMAND(do_prool)
 {
 prool_ident();
 
@@ -363,4 +363,80 @@ if (watchdog)
 		}
 	}
 return 0;
+}
+
+#define ESC 033
+#define ESC_STR "\033"
+
+void enable_mouse(void)
+{
+#if 1 // mouse code from midnight commander
+//    case MOUSE_XTERM_NORMAL_TRACKING:
+        /* save old highlight mouse tracking */
+        printf (ESC_STR "[?1001s");
+
+        /* enable mouse tracking */
+        printf (ESC_STR "[?1000h");
+
+        /* enable SGR extended mouse reporting */
+//        printf (ESC_STR "[?1006h");
+
+        fflush (stdout);
+
+//    case MOUSE_XTERM_BUTTON_EVENT_TRACKING:
+        /* save old highlight mouse tracking */
+        printf (ESC_STR "[?1001s");
+
+        /* enable mouse tracking */
+        printf (ESC_STR "[?1002h");
+
+        /* enable SGR extended mouse reporting */
+//        printf (ESC_STR "[?1006h");
+
+        fflush (stdout);
+#endif
+}
+
+void disable_mouse(void)
+{
+
+#if 1 // mouse code from midnight commander
+
+// case MOUSE_XTERM_NORMAL_TRACKING:
+        /* disable SGR extended mouse reporting */
+        printf (ESC_STR "[?1006l");
+
+        /* disable mouse tracking */
+        printf (ESC_STR "[?1000l");
+
+        /* restore old highlight mouse tracking */
+        printf (ESC_STR "[?1001r");
+
+        fflush (stdout);
+//    case MOUSE_XTERM_BUTTON_EVENT_TRACKING:
+        /* disable SGR extended mouse reporting */
+        printf (ESC_STR "[?1006l");
+
+        /* disable mouse tracking */
+        printf (ESC_STR "[?1002l");
+
+        /* restore old highlight mouse tracking */
+        printf (ESC_STR "[?1001r");
+
+        fflush (stdout);
+#endif
+}
+
+DO_COMMAND(do_mouseon)
+{
+	enable_mouse();
+	printf("Mouse on\n");
+return ses;
+}
+
+DO_COMMAND(do_mouseoff)
+{
+	disable_mouse();
+	printf("Mouse off\n");
+return ses;
 }
