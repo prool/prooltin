@@ -4359,10 +4359,9 @@ fi
 $as_echo "$ac_cv_lib_nsl_gethostbyname" >&6; }
 if test "x$ac_cv_lib_nsl_gethostbyname" = xyes; then :
   cat >>confdefs.h <<_ACEOF
-#define HAVE_LIBNSL 1
+#define HAVE_LIBNSL 0
 _ACEOF
 
-  LIBS="-lnsl $LIBS"
 
 fi
 
