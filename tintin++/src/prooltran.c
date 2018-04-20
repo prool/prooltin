@@ -31,7 +31,7 @@ char clipboard [MAXBUF];
 
 void prool_ident(void)
 {
-printf("Mod by Prool. 2014-2017. https://github.com/prool/virtustan http://mud.kharkov.org proolix@gmail.com\n");
+printf("Mod by Prool. 2014-2018. https://github.com/prool/virtustan http://mud.kharkov.org proolix@gmail.com\n");
 }
 
 char *prooltran(char *si)
@@ -197,6 +197,8 @@ Prool command\n\
 #delword english - del word from dic\n\
 #proolwatchdogtimer [n] - set watchdog to n seconds\n\
 \n\
+Experimental cmds:\n\
+#mouseon and #mouseoff\n\
 ",__DATE__,__TIME__,ptime());
 
 printf("Translator = %i\n", tron);
