@@ -9,6 +9,8 @@
 #include <stdio.h>
 #include <time.h>
 
+#include <sys/ioctl.h>
+
 #include "tintin.h"
 #include "prool.h"
 
@@ -122,7 +124,7 @@ else
 printf(" since %s\n", tmstr);
 }
 
-void prooltranslate_init(void)
+void prooltranslate_init(int greeting)
 {FILE *fp;
 char buf [MAXBUF];
 char buf2 [MAXBUF];
@@ -136,7 +138,7 @@ for (i=0;i<MAXWORD;i++)
 	}
 
 fp=fopen("slovarb.csv","r");
-if (fp==NULL) {printf("Can't open Slovarb\n"); return;}
+if (fp==NULL) {if (greeting!=FALSE)printf("Can't open Slovarb\n"); return;}
 j=0;
 while(!feof(fp))
 	{
@@ -146,12 +148,12 @@ while(!feof(fp))
 	if (cc) *cc=0;
 	if (buf[0])
 		{
-		printf("'%s' ", buf);
+		if (greeting!=FALSE)printf("'%s' ", buf);
 		cc=strchr(buf,',');
 		if (cc==0) continue;
 		strcpy(buf2,cc+1);
 		*cc=0;
-		printf("1 '%s' [%i] 2 '%s' [%i]\n", buf, strlen(buf), buf2, strlen(buf2));
+		if (greeting!=FALSE)printf("1 '%s' [%i] 2 '%s' [%i]\n", buf, strlen(buf), buf2, strlen(buf2));
 		if ((strlen(buf)>=MAXWORDLEN) || (strlen(buf2)>=MAXWORDLEN))
 			{
 			printf("Word length overflow. Max len=%i\n",MAXWORDLEN);
@@ -172,7 +174,7 @@ while(!feof(fp))
 for (i=0;i<MAXWORD;i++)
 	{
 	if (English[i][0]==0) break;
-	printf("%i) %s %s ", i, English[i], Russian[i]);
+	if (greeting!=FALSE)printf("%i) %s %s ", i, English[i], Russian[i]);
 	}
 
 fclose(fp);
@@ -180,6 +182,8 @@ fclose(fp);
 
 DO_COMMAND(do_prool)
 {
+struct winsize w;
+
 prool_ident();
 
 printf("\nCompile date %s %s\nCurrent date %s\n\nprool's remarks:\n\
@@ -208,6 +212,9 @@ printf("prool loop counter = %i\n", prool_loop_counter);
 printf("watchdog = %li\n", watchdog);
 
 printf("arg='%s'\n", arg);
+
+ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+printf("Window size: lines %i, columns %i\n",w.ws_row,w.ws_col);
 
 return ses;
 }

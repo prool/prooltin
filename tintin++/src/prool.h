@@ -14,7 +14,7 @@ void prool_log(char *message);
 void prool_ident(void);
 char *ptime(void);
 void uptime_(void);
-void prooltranslate_init(void);
+void prooltranslate_init(int greeting);
 int prool_loop(void);
 
 void enable_mouse(void);

@@ -165,6 +165,21 @@ int main(int argc, char **argv)
 	int greeting = TRUE;
 	char filename[256];
 
+	if (argc > 1)
+	{
+		int c;
+
+		while ((c = getopt(argc, argv, "e: G h r: s: t: v")) != EOF)
+		{
+			switch (c)
+			{
+				case 'G':
+					greeting = FALSE;
+					break;
+			}
+		}
+	}
+
 	// prool
 	tron=0; 
 	total_log=1;
@@ -172,13 +187,13 @@ int main(int argc, char **argv)
 	start_time=time(0);
 	watchdog=0;
 
-	prool_ident();
+	if (greeting!=FALSE)prool_ident();
 
 	prool_log("ProolTin started. http://prool.kharkov.org https://github.com/prool/virtustan");
 
-	prooltranslate_init();
+	prooltranslate_init(greeting);
 
-	prool_log("Label #2");
+	//prool_log("Label #2");
 	// end prool
 	#ifdef SOCKS
 		SOCKSinit(argv[0]);
@@ -226,21 +241,6 @@ int main(int argc, char **argv)
 
 
 	srand(time(NULL));
-
-	if (argc > 1)
-	{
-		int c;
-
-		while ((c = getopt(argc, argv, "e: G h r: s: t: v")) != EOF)
-		{
-			switch (c)
-			{
-				case 'G':
-					greeting = FALSE;
-					break;
-			}
-		}
-	}
 
 	init_tintin(greeting);
 
