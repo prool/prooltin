@@ -18,6 +18,8 @@
 #define MAXWORD 200
 #define MAXWORDLEN 60
 
+#define TOTAL_LOG_FILENAME "prooltin.log"
+
 int tron;
 int total_log;
 long int start_time;
@@ -33,7 +35,7 @@ char clipboard [MAXBUF];
 
 void prool_ident(void)
 {
-printf("Mod by Prool. 2014-2018. https://github.com/prool/virtustan http://mud.kharkov.org proolix@gmail.com\n");
+printf("Mod by Prool. 2014-2018. https://github.com/prool/prooltin http://prool.kharkov.org proolix@gmail.com\n");
 }
 
 char *prooltran(char *si)
@@ -98,7 +100,7 @@ void prool_log(char *message)
 {
 FILE *fp;
 
-fp=fopen("prooltin.log","a");
+fp=fopen(TOTAL_LOG_FILENAME,"a");
 if (fp==NULL) {printf("prooltin: can't open log\n"); total_log=0; return;}
 fprintf(fp,"%i %s %s\r\n",getpid(),ptime(),message);
 fclose(fp);
@@ -206,7 +208,7 @@ Experimental cmds:\n\
 ",__DATE__,__TIME__,ptime());
 
 printf("Translator = %i\n", tron);
-printf("Total log = %i\n", total_log);
+printf("Total log = %i \"%s\"\n", total_log, TOTAL_LOG_FILENAME);
 printf("PID = %i\n", getpid());
 printf("prool loop counter = %i\n", prool_loop_counter);
 printf("watchdog = %li\n", watchdog);
