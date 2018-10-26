@@ -29,7 +29,6 @@
 #include "tintin.h"
 #include "prool.h"
 
-
 struct command_type command_table[] =
 {
 	{    "action",            do_action,            TOKEN_TYPE_COMMAND },
@@ -89,6 +88,7 @@ struct command_type command_table[] =
 	{    "port",              do_port,              TOKEN_TYPE_COMMAND },
 	{    "prompt",            do_prompt,            TOKEN_TYPE_COMMAND },
 	{    "prool",             do_prool,             TOKEN_TYPE_COMMAND }, // prool
+	{    "proolcoder",        do_proolcoder_switch, TOKEN_TYPE_COMMAND }, // prool
 	{    "proolwatchdogtimer",do_proolwatchdogtimer,TOKEN_TYPE_COMMAND }, // prool
 	{    "read",              do_read,              TOKEN_TYPE_COMMAND },
 	{    "regexp",            do_regexp,            TOKEN_TYPE_REGEX   },

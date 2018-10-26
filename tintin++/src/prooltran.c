@@ -10,6 +10,7 @@
 #include <time.h>
 
 #include <sys/ioctl.h>
+#include <iconv.h>
 
 #include "tintin.h"
 #include "prool.h"
@@ -22,6 +23,7 @@
 
 int tron;
 int total_log;
+int coder;
 long int start_time;
 long int startwatchtime;
 int prool_loop_counter;
@@ -31,6 +33,7 @@ char English [MAXWORD] [MAXWORDLEN];
 char Russian [MAXWORD] [MAXWORDLEN];
 
 char buffer [MAXBUF];
+char recoded_str [MAXBUF];
 char clipboard [MAXBUF];
 
 void prool_ident(void)
@@ -38,9 +41,81 @@ void prool_ident(void)
 printf("Mod by Prool. 2014-2018. https://github.com/prool/prooltin http://prool.kharkov.org proolix@gmail.com\n");
 }
 
-char *prooltran(char *si)
+#define MAX_SOCK_BUF 1024
+
+void koi_to_utf8(char *str_i, char *str_o)
+{
+	iconv_t cd;
+	size_t len_i, len_o = MAX_SOCK_BUF * 6;
+	size_t i;
+
+	if ((cd = iconv_open("UTF-8","KOI8-R")) == (iconv_t) - 1)
+	{
+		printf("koi_to_utf8: iconv_open error\n");
+		return;
+	}
+	len_i = strlen(str_i);
+	if ((i = iconv(cd, &str_i, &len_i, &str_o, &len_o)) == (size_t) - 1)
+	{
+		printf("koi_to_utf8: iconv error\n");
+		return;
+	}
+	*str_o = 0;
+	if (iconv_close(cd) == -1)
+	{
+		printf("koi_to_utf8: iconv_close error\n");
+		return;
+	}
+}
+
+void utf8_to_koi(char *str_i, char *str_o)
+{
+	iconv_t cd;
+	size_t len_i, len_o = MAX_SOCK_BUF * 6;
+	size_t i;
+
+	if ((cd = iconv_open("KOI8-R", "UTF-8")) == (iconv_t) - 1)
+	{
+		printf("utf8_to_koi: iconv_open error\n");
+		return;
+	}
+	len_i = strlen(str_i);
+	if ((i=iconv(cd, &str_i, &len_i, &str_o, &len_o)) == (size_t) - 1)
+	{
+		printf("utf8_to_koi: iconv error\n");
+		// return;
+	}
+	if (iconv_close(cd) == -1)
+	{
+		printf("utf8_to_koi: iconv_close error\n");
+		return;
+	}
+}
+
+DO_COMMAND(do_proolcoder_switch)
+{
+if (coder) coder=0;
+else coder=1;
+return ses;
+}
+
+void do_coder(char *s_i, char *s_o)
+{
+koi_to_utf8(s_i,s_o);
+}
+
+char *prooltran(char *si0)
 {char *pp, *p0;
 int ii;
+char *si;
+
+si=si0;
+
+if (coder)
+	{
+	do_coder(si,recoded_str);
+	si=recoded_str;
+	}
 
 if (total_log) prool_log(si);
 
@@ -202,6 +277,7 @@ Prool command\n\
 #addword english,russian - add word pair to dic\n\
 #delword english - del word from dic\n\
 #proolwatchdogtimer [n] - set watchdog to n seconds\n\
+#proolcoder - set text recoding koi8-r (server) <-> UTF-8 (client)\n\
 \n\
 Experimental cmds:\n\
 #mouseon and #mouseoff\n\
@@ -212,6 +288,7 @@ printf("Total log = %i \"%s\"\n", total_log, TOTAL_LOG_FILENAME);
 printf("PID = %i\n", getpid());
 printf("prool loop counter = %i\n", prool_loop_counter);
 printf("watchdog = %li\n", watchdog);
+printf("coder = %i\n", coder);
 
 printf("arg='%s'\n", arg);
 

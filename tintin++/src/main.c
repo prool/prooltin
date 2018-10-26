@@ -183,6 +183,7 @@ int main(int argc, char **argv)
 	// prool
 	tron=0; 
 	total_log=1;
+	coder=0;
 	prool_loop_counter=0;
 	start_time=time(0);
 	watchdog=0;

@@ -59,6 +59,16 @@ void process_input(void)
 		add_line_history(gtd->ses, gtd->input_buf);
 	}
 
+	printf("prooldebug input_buf='%s'\n", gtd->input_buf);
+#define BUFLEN 512
+	if (coder)
+		{int i;
+		char buffer2 [BUFLEN];
+		for (i=0;i<BUFLEN;i++) buffer2[i]=0;
+		utf8_to_koi(gtd->input_buf,buffer2);
+		strcpy(gtd->input_buf,buffer2);
+		}
+
 	if (HAS_BIT(gtd->ses->telopts, TELOPT_FLAG_ECHO))
 	{
 		echo_command(gtd->ses, gtd->input_buf);
@@ -95,6 +105,8 @@ void read_line()
 	gtd->input_buf[gtd->input_len] = 0;
 
 	len = read(0, buffer, 1);
+
+//	printf("prooldebug buffer='%s'\n", buffer); // read one character! /prool
 
 	buffer[len] = 0;
 
@@ -494,7 +506,7 @@ void echo_command(struct session *ses, char *line)
 {
 	char buffer[STRING_SIZE], result[STRING_SIZE];
 
-	//printf("line=%s\n", line); // prool
+	printf("prooldebug line=%s\n", line); // prool
 	if (total_log) prool_log(line);
 
 	if (HAS_BIT(ses->flags, SES_FLAG_SPLIT))
