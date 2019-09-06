@@ -37,7 +37,7 @@ LDFLAGS =
 
 INCS = 
 
-LIBS = -lm -lpcre -lutil -lpthread -lz /usr/lib/libiconv.dylib
+LIBS = -lm -lpcre -lutil -lpthread -lz /usr/lib/libiconv.dylib /usr/local/lib/libgnutls.dylib
 
 # If you prefer to be able to enter ISO latin-1 characters instead
 # of being able to use the meta key for special emacs-like commands
