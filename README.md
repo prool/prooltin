@@ -1,5 +1,5 @@
 # prooltin
-ProolTin - Prool's mod of tintin++ MUD client
+ProolTin - Prool's fork of tintin++ MUD client
 
 Based on tintin++ 2.01.7
 
